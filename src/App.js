@@ -10,6 +10,7 @@ import Navegacion from "./componentes/layout/Navegacion";
 /**Componentes */
 import Clientes from "./componentes/clientes/Clientes";
 import NuevoCliente from "./componentes/clientes/NuevoCliente";
+import EditarCliente from "./componentes/clientes/EditarCliente";
 
 import Productos from "./componentes/productos/Productos";
 import Pedidos from "./componentes/pedidos/Pedidos";
@@ -25,12 +26,16 @@ const App = () => {
           <main className="caja-contenido col-9">
             {/*Todo: Routing a diferentes componentes*/}
             <Routes>
-              <Route exact path='/' element={<Clientes/>}></Route>
-              <Route exact path='/clientes/nuevo' element={<NuevoCliente/>}></Route>
+              {/*With Elemement*/}
+              <Route exact path='/' element={<Clientes />}></Route>
+              <Route exact path='/clientes/nuevo' element={<NuevoCliente />}></Route>
+              <Route exact path='/clientes/editar/:id' element={<EditarCliente />}></Route>
+              
+              <Route exact path='/productos' element={<Productos />}></Route>
+              <Route exact path='/pedidos' element={<Pedidos />}></Route>
+              {/*With Component*/}
 
-              <Route exact path='/productos' element={<Productos/>}></Route>
 
-              <Route exact path='/pedidos' element={<Pedidos/>}></Route>
             </Routes>
           </main>
         </div>

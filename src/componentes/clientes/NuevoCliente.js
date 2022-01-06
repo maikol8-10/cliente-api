@@ -4,6 +4,7 @@ import clienteAxios from '../../config/axios';
 import Swal from 'sweetalert2';
 
 const NuevoCliente = () => {
+    //Se utiliza para el redireccionamiento entre views
     const navigate = useNavigate();
     //cliente= state, guardarCliente= funcion para guardar el state
     const [cliente, guardarCliente] = useState({

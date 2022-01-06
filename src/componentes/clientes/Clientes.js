@@ -12,18 +12,21 @@ const Clientes = () => {
     //clientes=state, guardarClientes = funcion para guardar el state
     const [clientes, guardarClientes] = useState([]);
 
-    /**Query a la API*/
-    const consultarAPI = async () => {
-        const clientesConsulta = await clienteAxios.get('/clientes');
-        //Colocar el resultado en el state
-        guardarClientes(clientesConsulta.data);
-        //console.log(clientesConsulta)
-    };
+
 
     //useEffect es similar a componentDidMount y componentWillMount
     useEffect(() => {
+
+        /**Query a la API*/
+        const consultarAPI = async () => {
+            const clientesConsulta = await clienteAxios.get('/clientes');
+            //Colocar el resultado en el state
+            guardarClientes(clientesConsulta.data);
+            //console.log(clientesConsulta)
+        };
+        
         consultarAPI();
-    }, []);
+    }, [clientes]);
 
     return (
         <Fragment>

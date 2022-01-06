@@ -4,7 +4,8 @@ import clienteAxios from '../../config/axios';
 import Swal from 'sweetalert2';
 
 const EditarCliente = (props) => {
-
+    //Se utiliza para el redireccionamiento entre views
+    const navigate = useNavigate();
     //Obtener el ID
     const { id } = useParams();
 
@@ -42,6 +43,33 @@ const EditarCliente = (props) => {
         //console.log(cliente)
     };
 
+    //Envía una petición por axios para actualizar el cliente
+    const actualizarCliente = e => {
+        e.preventDefault();
+        //Enviar peticición por axios
+        clienteAxios.put(`/clientes/${cliente._id}`, cliente)
+        .then(res=>{
+
+            //Validar si hay errores en Mongoose
+            if (res.data.code === 11000) {
+                Swal.fire({
+                    type: 'error',
+                    title: 'Hubo un error!',
+                    text: 'Este cliente ya está registrado',
+                })
+            } else {
+                Swal.fire(
+                    'Correcto',
+                    'Se actualizó corectamente!',
+                    'success'
+                )
+                //console.log(res.data);
+            }
+            //Redireccionar
+            navigate('/');
+        })
+    }
+
     //Validar Formulario
     const validarCliente = () => {
         //Destructuring
@@ -61,7 +89,7 @@ const EditarCliente = (props) => {
         <Fragment>
             <h2>Editar Cliente</h2>
 
-            <form>
+            <form onSubmit={actualizarCliente}>
                 <legend>Llena todos los campos</legend>
 
                 <div className="campo">

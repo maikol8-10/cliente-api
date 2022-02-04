@@ -25,7 +25,7 @@ const Clientes = () => {
             guardarClientes(clientesConsulta.data);
             //console.log(clientesConsulta)
         };
-        
+
         consultarAPI();
     }, [clientes]);
 

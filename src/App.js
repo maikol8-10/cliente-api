@@ -14,12 +14,10 @@ import EditarCliente from "./componentes/clientes/EditarCliente";
 
 import Productos from "./componentes/productos/Productos";
 import EditarProducto from "./componentes/productos/EditarProducto";
-import Prodducto from "./componentes/productos/Producto";
 import NuevoProducto from "./componentes/productos/NuevoProducto";
 
-
-
 import Pedidos from "./componentes/pedidos/Pedidos";
+import NuevoPedido from "./componentes/pedidos/NuevoPedido";
 
 
 const App = () => {
@@ -44,6 +42,7 @@ const App = () => {
 
 
               <Route exact path='/pedidos' element={<Pedidos />}></Route>
+              <Route exact path='/pedidos/nuevo/:id' element={<NuevoPedido />}></Route>
               {/*With Component*/}
 
 

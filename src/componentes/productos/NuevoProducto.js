@@ -46,7 +46,6 @@ const NuevoProducto = () => {
                     'Content-Type': 'multipart/form-data',
                 }
             });
-
             //Lanzar alerta
             console.log(res);
             if (res.status === 200) {
@@ -56,7 +55,7 @@ const NuevoProducto = () => {
                     'success'
                 )
             }
-            //Redirecci(onar
+            //Redireccionar
             navigate('/productos');
         } catch (error) {
             console.log(error);

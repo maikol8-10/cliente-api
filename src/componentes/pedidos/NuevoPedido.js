@@ -31,7 +31,7 @@ const NuevoProducto = () => {
 
         //Actualizar el total a pagar
         actualizarTotal();
-        
+
     }, [productos]);
 
     const buscarProducto = async e => {
@@ -87,6 +87,12 @@ const NuevoProducto = () => {
 
     }
 
+    //Elimina un producto del state
+    const eliminaProductoPedido = id => {
+        //!== Elimina el elemento del array
+        const todosProductos = productos.filter(producto => producto.producto !== id);
+        guardarProductos(todosProductos);
+    }
     //Actualizar el total a pagar
     const actualizarTotal = () => {
         //Si el arreglo de productos es igual 0: el total es 0
@@ -101,6 +107,40 @@ const NuevoProducto = () => {
         productos.map(producto => nuevoTotal += (producto.cantidad * producto.precio));
         //Almacena el total
         guardarTotal(nuevoTotal);
+    }
+
+    //Almacena el pedido en la Base de Datos
+    const realizarPedido = async e => {
+        e.preventDefault();
+
+        //Construir el objeto
+        const pedido = {
+            "cliente": id, //Está arriba como una constante
+            "pedido": productos,
+            "total": total
+        }
+        //Almacenarlo en la base de datos
+        const resultado = await clienteAxios.post(`/pedidos/nuevo/${id}`, pedido);
+
+        //Leer resultado
+        if (resultado.status === 200) {
+            //Alerta de todo bien
+            Swal.fire({
+                type: 'success',
+                title: 'Correcto',
+                text: resultado.data.mensaje,
+            })
+        } else {
+            //Alerta de error
+            Swal.fire({
+                type: 'error',
+                title: 'Hubo un error!',
+                text: 'Vuelva a Intentarlo',
+            })
+        }
+
+        //Redireccionar
+        navigate('/pedidos');
     }
 
     return (
@@ -127,6 +167,7 @@ const NuevoProducto = () => {
                         producto={producto}
                         restarProductos={restarProductos}
                         aumentarProductos={aumentarProductos}
+                        eliminaProductoPedido={eliminaProductoPedido}
                         index={index}
                     ></FormCantidadProducto>
                 ))}
@@ -137,8 +178,7 @@ const NuevoProducto = () => {
 
 
             {total > 0 ? (
-                <form
-                >
+                <form onSubmit={realizarPedido}>
                     <input type="submit" className="btn btn-verde btn-block" value="Realizar Pedido" />
                 </form>
             ) : null}

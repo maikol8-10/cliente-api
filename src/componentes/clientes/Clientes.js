@@ -25,7 +25,6 @@ const Clientes = () => {
 
     //useEffect es similar a componentDidMount y componentWillMount
     useEffect(() => {
-
         if (auth.token !== '') { //Verifica si el token no está vacio
 
             /**Query a la API*/
@@ -41,22 +40,22 @@ const Clientes = () => {
                 } catch (error) {
                     //Error con la autorización
                     if (error.response.status == 500) {
-                        navigate('/iniciar-sesion');
+                        navigate("/iniciar-sesion");
                     }
                 }
             };
 
             consultarAPI();
         } else {
-            navigate('/iniciar-sesion');
+            navigate("/iniciar-sesion");
         }
     }, [clientes]);
 
-
     //Si el state está como false
-    if (!auth.auth) { //Se pone antes del spinner para que no lo muestre y valide antes el login
-        navigate('/iniciar-sesion');
-    }
+    /*if (!auth.auth) { //Se pone antes del spinner para que no lo muestre y valide antes el login
+        console.log("Entrooooo")
+        navigate("/iniciar-sesion");
+    }*/
 
     if (!clientes.length) return <Spinner></Spinner>
 

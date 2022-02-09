@@ -1,4 +1,4 @@
-import React, { Fragment, useState, useContext } from 'react';
+import React, { Fragment, useState,useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import clienteAxios from '../../config/axios';
 import Swal from 'sweetalert2';
@@ -10,9 +10,6 @@ const NuevoCliente = () => {
     //Se utiliza para el redireccionamiento entre views
     const navigate = useNavigate();
 
-    //Utilizar valores del Context
-    const [auth, guardarAuth] = useContext(CRMContext);
-
     //cliente= state, guardarCliente= funcion para guardar el state
     const [cliente, guardarCliente] = useState({
         nombre: '',
@@ -21,6 +18,16 @@ const NuevoCliente = () => {
         empresa: '',
         telefono: ''
     });
+
+     //Utilizar valores del Context
+     const [auth, guardarAuth] = useContext(CRMContext);
+
+     useEffect(() => {
+        //Verificar si el usuario está verificado o no
+        if (!auth.auth) {
+          navigate("/iniciar-sesion");
+        }
+      }, []);
 
     const actualizarState = e => {
         //Almacenar lo que el usuario escribe
@@ -75,9 +82,11 @@ const NuevoCliente = () => {
     }
 
     //Verificar si el usuario está verificado o no
-    if (!auth.auth && (localStorage.getItem('token') === auth.token)) {
+    if (!auth.auth) {
         navigate('/iniciar-sesion');
     }
+
+    
     return (
 
         <Fragment>

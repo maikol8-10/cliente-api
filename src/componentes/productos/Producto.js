@@ -36,7 +36,7 @@ const Producto = ({ producto }) => {
       <div className="info-producto">
         <p className="nombre">{nombre}</p>
         <p className="precio">$ {precio} </p>
-        {imagen ? <img src={`http://localhost:5000/${imagen}`} /> : null}
+        {imagen ? <img src={`${process.env.REACT_APP_BACKEND_URL}/${imagen}`} /> : null}
       </div>
       <div className="acciones">
         <Link to={`/productos/editar/${_id}`} className="btn btn-azul">
@@ -50,7 +50,7 @@ const Producto = ({ producto }) => {
           onClick={() => eliminarProducto(_id)}
         >
           <i className="fas fa-times"></i>
-          Eliminar Cliente
+          Eliminar Producto
         </button>
       </div>
     </li>

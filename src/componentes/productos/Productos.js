@@ -17,39 +17,36 @@ const Productos = () => {
   //Utilizar valores del Context
   const [auth, guardarAuth] = useContext(CRMContext);
 
-  //useEffect para consultar la API cuando cargue
-  useEffect(() => {
-    if (auth.token !== '') {
-      //Verifica si el token no está vacio
-      //Query a la API
-      const consultarAPI = async () => {
-        try {
-          const productosConsulta = await clienteAxios.get("/productos", {
-            headers: {
-              Authorization: `Bearer ${auth.token}`,
-            },
-          });
-          guardarProductos(productosConsulta.data);
-        } catch (error) {
-          //Error con la autorización
-          if (error.response.status == 500) {
-            navigate("/iniciar-sesion");
-          }
-        }
-      };
+  const consultarAPI = async () => {
+    try {
+      const productosConsulta = await clienteAxios.get("/productos", {
+        headers: {
+          Authorization: `Bearer ${auth.token}`,
+        },
+      });
+      guardarProductos(productosConsulta.data);
+    } catch (error) {
+      //Error con la autorización
+      if (error.response.status == 500) {
+        navigate("/iniciar-sesion");
+      }
+    }
+  };
 
-      //Llamado a la API
-      consultarAPI();
+  //useEffect para consultar la API cuando cargue
+  useEffect(async () => {
+    if (localStorage.getItem("token") !== "") {
+      if (auth.token == "") {
+        guardarAuth({
+          token: localStorage.getItem("token"),
+          auth: true,
+        });
+      }
+      await consultarAPI();
     } else {
       navigate("/iniciar-sesion");
     }
   }, [productos]);
-
-  //Si el state está como false
-  /*if (!auth.auth) {
-    //Se pone antes del spinner para que no lo muestre y valide antes el login
-    navigate("/iniciar-sesion");
-  }*/
 
   //Spinner de carga
   if (!productos.length) return <Spinner></Spinner>;

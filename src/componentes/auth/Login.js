@@ -7,14 +7,17 @@ import { useNavigate } from 'react-router-dom';
 //Import Context
 import { CRMContext } from '../../context/CRMContext';
 
+import Spinner from "../layout/Spinner";
+
 const Login = () => {
     const navigate = useNavigate();
     //state con los datos del form
     const [credenciales, guardarCredenciales] = useState({});
 
+    const [loading, setLoading] = useState(false);
+
     //state auth y guardarAuth
     const [auth, guardarAuth] = useContext(CRMContext);
-    console.log(auth)
 
 
 
@@ -24,11 +27,12 @@ const Login = () => {
 
         //Autenticar al usuario
         try {
-
+            setLoading(true);
             const respuesta = await clienteAxios.post('/iniciar-sesion', credenciales);
-
-            //Extraer el TOKEN y colocarlo en LocalStorage
+            setLoading(false);
             const { token } = respuesta.data;
+            //Extraer el TOKEN y colocarlo en LocalStorage
+            localStorage.setItem('token', token);
             //Colocarlo en el state de Context
             guardarAuth({
                 token,
@@ -59,10 +63,11 @@ const Login = () => {
                     text: 'Hubo un error '
                 });
             }
-
+            setLoading(false);
         }
     }
-
+    // return a Spinner when loading is true
+    if (loading) return <Spinner></Spinner>;
     //Almacenar lo que el usuario escribe en el state
     const leerDatos = e => {
         guardarCredenciales({

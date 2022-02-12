@@ -10,7 +10,8 @@ const Header = () => {
     //Utilizar valores del Context
     const [auth, guardarAuth] = useContext(CRMContext);
 
-    const cerrarSesion = () => {
+    const cerrarSesion = e => {
+        e.preventDefault();
         //auth.auth= false y el token se remueve
         guardarAuth({
             token: '',
